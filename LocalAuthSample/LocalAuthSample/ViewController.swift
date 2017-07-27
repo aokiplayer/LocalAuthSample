@@ -11,7 +11,7 @@ class ViewController: UIViewController {
 
         var authError: NSError? = nil
 
-        // Touch ID enabled?
+        // Touch ID or Passcode enabled?
         if myContext.canEvaluatePolicy(.deviceOwnerAuthentication, error: &authError) {
 
             // perform authentication.
@@ -32,6 +32,15 @@ class ViewController: UIViewController {
                         self.authResultLabel.text = errorMessage
                     }
                 }
+            }
+        } else {
+            // both Touch ID and Passcode are disabled.
+
+            let errorMessage = "\(authError!.code): \(authError!.localizedDescription)"
+            print(errorMessage)
+
+            DispatchQueue.main.async {
+                self.authResultLabel.text = errorMessage
             }
         }
     }
